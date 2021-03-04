@@ -25,10 +25,18 @@ function mostrar()
 	var respuestaConfirm = true;
 
 	var contadorViudoTerceraEdad = 0;
+	var contadorTerceraEdad = 0;
 
 	var nombreSolteraMasJoven;
 	var edadSolteraMasJoven;
 	var flagSolteraMasJoven = false;
+
+	var contadorPasajerosTotal = 0;
+	var precioTotalSinDescuento;
+
+	var descuento = -25;
+	var descuentoAplicado;
+	var precioFinalConDescuento;
 
 	do
 	{
@@ -62,15 +70,19 @@ function mostrar()
 			sexoIngresado = prompt ("Error, reingrese el sexo (femenino / masculino)");
 		}
 
+		contadorPasajerosTotal++;
+
 		switch (estadoCivilIngresado) {
 			case "soltero":
-				if (flagSolteraMasJoven == false || edadIngresado < edadSolteraMasJoven)
+				if (sexoIngresado == "femenino")
 				{
-					nombreSolteraMasJoven = nombreIngresado;
-					edadSolteraMasJoven = edadIngresado;
-					flagSolteraMasJoven = true;
+					if (flagSolteraMasJoven == false || edadIngresado < edadSolteraMasJoven)
+					{
+						nombreSolteraMasJoven = nombreIngresado;
+						edadSolteraMasJoven = edadIngresado;
+						flagSolteraMasJoven = true;
+					}
 				}
-				
 				break;
 
 			case "viudo":
@@ -82,6 +94,10 @@ function mostrar()
 		
 		}
 
+		if (edadIngresado > 59)
+		{
+			contadorTerceraEdad++;
+		}
 
 		respuestaConfirm = confirm("¿Desea continuar ingresando?");
 	}while(respuestaConfirm)
@@ -93,9 +109,24 @@ function mostrar()
 
 	if (flagSolteraMasJoven == true)
 	{
-		console.log ("La mujer soltera más joven lleva por nombre "+nombreSolteraMasJoven+" y por edad "+edadSolteraMasJoven);
+		console.log ("B)La mujer soltera más joven lleva por nombre "+nombreSolteraMasJoven+" y por edad "+edadSolteraMasJoven);
 	}
 
-	///INCOMPLETO
+	if (contadorPasajerosTotal > 0)
+	{
+		precioTotalSinDescuento = precioPorPasajero * contadorPasajerosTotal;
+
+		console.log ("C)El precio total del viaje sin descuento es "+precioTotalSinDescuento);
+	}
+
+	if (contadorPasajerosTotal > 0)
+	{
+		if (contadorTerceraEdad > (contadorPasajerosTotal / 2))
+		{
+			descuentoAplicado = precioTotalSinDescuento * descuento / 100;
+			precioFinalConDescuento = precioTotalSinDescuento + descuentoAplicado;
+			console.log ("D) El precio final con descuento es "+precioFinalConDescuento);
+		}
+	}
 
 }
